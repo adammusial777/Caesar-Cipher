@@ -5,7 +5,7 @@ import java.io.*;
  * Class used to get and read data from file.
  * 
  * @author Adam Musiał
- * @version 1.0
+ * @version 1.1
  * 
  */
 public class InputFileReader {
@@ -30,8 +30,11 @@ public class InputFileReader {
         catch(FileNotFoundException e) {
             throw new FileNotFoundException("File not found!");
         }
+        catch(NullPointerException e) {
+            throw new NullPointerException(e.getMessage());
+        }
         catch(IOException e) {
-            throw new IOException(e);
+            throw new IOException(e.getMessage());
         }
         finally {
             if(reader != null)

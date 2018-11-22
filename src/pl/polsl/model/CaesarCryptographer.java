@@ -1,23 +1,23 @@
 package pl.polsl.model;
 
-import pl.polsl.exceptions.IncorrectCharacterException;
+import pl.polsl.model.exceptions.IncorrectInputParameterException;
 import pl.polsl.utility.CharactersConstants;
 /**
  * Cryptographer class, is used to encrypt and decrypt text. 
  * 
  * @author Adam Musiał
- * @version 1.0
+ * @version 1.1
  * 
  */
 public class CaesarCryptographer implements CharactersConstants {
     /**
     * Plain text in latin alphabet.
     */
-    private String plainText;
+    private String plainText = "";
     /**
     * Text encrypted with Caesar Cipher.
     */
-    private String cipherText;
+    private String cipherText = "";
     /**
      * Caesar Cipher key.
      */
@@ -41,16 +41,16 @@ public class CaesarCryptographer implements CharactersConstants {
      * @param text the text to encrypts
      * @param key the shift of alphabet
      * @return encrypted text
-     * @throws IncorrectCharacterException if any character in String is not in used characters
+     * @throws IncorrectInputParameterException if any character in String is not in used characters
      */
-    public String encrypt(String text, int key) throws IncorrectCharacterException {
+    public String encrypt(String text, int key) throws IncorrectInputParameterException {
         cipherKey = setKey(key);
         cipherText = "";
         for(int i = 0; i < text.length(); i++) {
                char character = text.charAt(i);
            
             if(character < FIRST_OF_USED_CHARACTERS || character > LAST_OF_USED_CHARACTERS) {
-                throw new IncorrectCharacterException(Character.toString(character));
+                throw new IncorrectInputParameterException(Character.toString(character));
             }
             else {
                 if(Character.isLetter(character)) {
@@ -85,15 +85,15 @@ public class CaesarCryptographer implements CharactersConstants {
     * @param text the text to decrypts
     * @param key the shift of alphabet
     * @return decrypted text
-    * @throws IncorrectCharacterException if any character in String is not in used characters
+    * @throws IncorrectInputParameterException if any character in String is not in used characters
     */
-    public String decrypt(String text, int key) throws IncorrectCharacterException {
+    public String decrypt(String text, int key) throws IncorrectInputParameterException {
         cipherKey = setKey(key);    
         plainText = "";
         for(int i = 0; i < text.length(); i++) {
            char character = text.charAt(i);
            if(character < FIRST_OF_USED_CHARACTERS || character > LAST_OF_USED_CHARACTERS) {
-               throw new IncorrectCharacterException(Character.toString(character));
+               throw new IncorrectInputParameterException(Character.toString(character));
            }
            else {
                 if(Character.isLetter(character)) {

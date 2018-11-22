@@ -3,15 +3,17 @@ package pl.polsl.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import pl.polsl.exceptions.IncorrectParameterException;
+import pl.polsl.model.exceptions.IncorrectInputParameterException;
+
 /**
  * Class used to parse parameters from input data.
- * 
+ *
  * @author Adam Musiał
- * @version 1.0
- * 
+ * @version 1.1
+ *
  */
 public class ParametersParser {
+
     /**
      * List of parameters.
      */
@@ -32,12 +34,14 @@ public class ParametersParser {
      * Variable describes that default is choosen encrypt text operation.
      */
     private boolean encryption = true;
+
     /**
      * Parses and sets parameters with program is called.
-     * @throws IncorrectParameterException if parameters are incorrect
+     *
+     * @throws IncorrectInputParameterException if parameters are incorrect
      */
-    public void parse() throws IncorrectParameterException {
-        if(checkEmptyParameters()) {
+    public void parse() throws IncorrectInputParameterException {
+        if (checkEmptyParameters()) {
             checkTooManyParameters();
             checkSwitches();
             checkForParametersAfterSwitches();
@@ -45,56 +49,75 @@ public class ParametersParser {
             setInputParameters();
         }
     }
+
     /**
-     * Checks if the program is called with parameters and set areParameters variable.
+     * Checks if the program is called with parameters and set areParameters
+     * variable.
+     *
      * @return the information about parameters exist
      */
     private boolean checkEmptyParameters() {
         areParameters = !parameters.isEmpty();
         return areParameters;
     }
+
     /**
-     * Checks if user not enter to many parameters.
-     * @throws IncorrectParameterException if user enter more than 5 parameters
+     * Checks if user enter too many parameters.
+     *
+     * @throws IncorrectInputParameterException if user enter more than 5
+     * parameters
      */
-    private void checkTooManyParameters() throws IncorrectParameterException {
-        if(parameters.size() > 5) {
-            throw new IncorrectParameterException("Too many parameters!");
+    private void checkTooManyParameters() throws IncorrectInputParameterException {
+        int size = 0;
+        for (String p : parameters) {
+            if (!p.equals("")) {
+                size++;
+            }
+        }
+        if (size > 5) {
+            throw new IncorrectInputParameterException("Too many parameters!");
         }
     }
+
     /**
      * Checks if user not enter correct switches.
-     * @throws IncorrectParameterException if switches not match
+     *
+     * @throws IncorrectInputParameterException if switches not match
      */
-    private void checkSwitches() throws IncorrectParameterException {
-        if(!(parameters.contains("-f") && parameters.contains("-k") && (parameters.contains("-e") || parameters.contains("-d")))) {
-            throw new IncorrectParameterException("Missing one or more switches!");      
+    private void checkSwitches() throws IncorrectInputParameterException {
+        if (!(parameters.contains("-f") && parameters.contains("-k") && (parameters.contains("-e") || parameters.contains("-d")))) {
+            throw new IncorrectInputParameterException("Missing one or more switches!");
         }
     }
+
     /**
      * Checks if user not enter correct parameters after switches.
-     * @throws IncorrectParameterException if parameters after switches not match
+     *
+     * @throws IncorrectInputParameterException if parameters after switches not
+     * match
      */
-    private void checkForParametersAfterSwitches() throws IncorrectParameterException {
+    private void checkForParametersAfterSwitches() throws IncorrectInputParameterException {
         int indexOfFilepath = parameters.indexOf("-f") + 1;
         int indexOfKey = parameters.indexOf("-k") + 1;
-        if(!parameters.get(indexOfFilepath).matches(".+\\.txt")) {
-            throw new IncorrectParameterException("Incorrect filepath!");
+        if (!parameters.get(indexOfFilepath).matches(".+\\.txt")) {
+            throw new IncorrectInputParameterException("Incorrect filepath!");
         }
-        if(!parameters.get(indexOfKey).matches("\\d+")) {
-            throw new IncorrectParameterException("Incorrect key!");
+        if (!parameters.get(indexOfKey).matches("\\d+")) {
+            throw new IncorrectInputParameterException("Incorrect key!");
         }
     }
+
     /**
-     * Sets encription/decryption switch from parameters. 
+     * Sets encription/decryption switch from parameters.
      */
     private void setEncryption() {
-        if(parameters.contains("-e")) {
+        if (parameters.contains("-e")) {
             encryption = true;
-        } else if(parameters.contains("-d")) {
+        } else if (parameters.contains("-d")) {
             encryption = false;
         }
     }
+
     /**
      * Sets filepath and key from the parameters.
      */
@@ -104,36 +127,46 @@ public class ParametersParser {
         filepath = parameters.get(indexOfFilepath);
         key = Integer.parseInt(parameters.get(indexOfKey));
     }
+
     /**
      * Sets parameters array.
+     *
      * @param param the parameters array to set
      */
     public void setParameters(String[] param) {
         parameters = Arrays.asList(param);
     }
+
     /**
      * Gets variable describes if are parameters.
+     *
      * @return are parameters switch
      */
     public boolean getAreParameters() {
         return areParameters;
     }
+
     /**
      * Gets filepath.
+     *
      * @return filepath
      */
     public String getFilepath() {
         return filepath;
     }
+
     /**
      * Gets key.
+     *
      * @return key
      */
     public int getKey() {
         return key;
     }
+
     /**
      * Gets variable describes if default encrypt operation is realize.
+     *
      * @return encryption switch
      */
     public boolean getEncryption() {

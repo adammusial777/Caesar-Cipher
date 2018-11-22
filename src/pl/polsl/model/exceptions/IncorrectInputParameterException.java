@@ -1,22 +1,22 @@
-package pl.polsl.exceptions;
+package pl.polsl.model.exceptions;
 /**
  * Incorrect parameter exception class, extends Exception class, 
  * used to notify incorrect parameter input. 
  * 
  * @author Adam Musiał
- * @version 1.0
+ * @version 1.1
  * 
  */
-public class IncorrectParameterException extends Exception {
+public class IncorrectInputParameterException extends Exception {
     /**
      * Constructor.
      */
-    public IncorrectParameterException() {}
+    public IncorrectInputParameterException() {}
     /**
      * Informs user what type of exception is handle.
      * @param message the text to inform user
      */
-    public IncorrectParameterException(String message) {
+    public IncorrectInputParameterException(String message) {
         super(message);
     }
 }

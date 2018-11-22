@@ -3,7 +3,7 @@ package pl.polsl.view;
  * Class used to present output to the user through command line.
  * 
  * @author Adam Musiał
- * @version 1.0
+ * @version 1.1
  * 
  */
 public class OutputPresenter {
